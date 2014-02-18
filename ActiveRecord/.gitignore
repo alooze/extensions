@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .project
 .buildpath
 .settings
@@ -5,4 +6,13 @@
 test/*.db
 *.swp
 vendor/*
+=======
+.project
+.buildpath
+.settings
+*.log
+test/*.db
+*.swp
+vendor/*
+>>>>>>> e7fd71c0bb76ce46318f11d43e467a3bec2b7b76
 composer.lock

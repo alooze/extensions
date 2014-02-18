@@ -15,7 +15,7 @@
     "grid": [
         {
             "title": "Список категорий",
-            "style": "width:900px;height:650px",
+            "style": "width:700px;height:350px",
             "pagination": "true",
             "rownumbers": "false",
             "fitColumns": "true",
@@ -59,11 +59,7 @@
                 "options": "width1:300",
                 "input": "combobox",
                 "istyle": "width:200px",
-<<<<<<< HEAD
                 "list": "@SELECT id,category FROM guns_xa_categories ORDER BY category",
-=======
-                "list": "@SELECT id,category FROM ob_xa_categories ORDER BY category",
->>>>>>> e7fd71c0bb76ce46318f11d43e467a3bec2b7b76
                 "required": "false",
                 "disabled": "false",
                 "validate": "",

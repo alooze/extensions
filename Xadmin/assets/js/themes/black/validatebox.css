@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .validatebox-invalid {
   background-image: url('images/validatebox_warning.png');
   background-repeat: no-repeat;
@@ -7,13 +6,3 @@
   background-color: #fff3f3;
   color: #000;
 }
-=======
-.validatebox-invalid {
-  background-image: url('images/validatebox_warning.png');
-  background-repeat: no-repeat;
-  background-position: right center;
-  border-color: #ffa8a8;
-  background-color: #fff3f3;
-  color: #000;
-}
->>>>>>> e7fd71c0bb76ce46318f11d43e467a3bec2b7b76

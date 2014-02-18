@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 html {
     height: 100%;
     overflow: auto;
@@ -41,47 +40,3 @@ li {
 pre, code {
     font-family: 'Courier New', monospace;
 }
-=======
-html {
-    height: 100%;
-    overflow: auto;
-}
-
-body {
-    margin: 0 10px 30px 10px;
-    font-family: 'Trebuchet MS', sans-serif;
-    font-size: 14px;
-    overflow: hidden;
-    min-height: 100%;
-    height: auto;
-}
-
-h1 {
-    margin: 0 0 10px 0;
-}
-
-h2 {
-    margin: 20px 0 10px;
-}
-
-h3, h4, h5, h6 {
-    margin: 10px 0;
-}
-
-p {
-    margin: 0 0 10px 0;
-}
-
-ul {
-    margin: 0 0 10px 0;
-    padding: 0 0 0 20px;
-}
-
-li {
-    margin: 0 0 5px 0;
-}
-
-pre, code {
-    font-family: 'Courier New', monospace;
-}
->>>>>>> e7fd71c0bb76ce46318f11d43e467a3bec2b7b76

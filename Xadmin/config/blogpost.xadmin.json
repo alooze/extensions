@@ -1,0 +1,22 @@
+{
+    "name": "blogpost",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "site_content",
+            "ar_model": "BlogPost",
+            "where": "parent = 2",
+            "fields": [
+                {
+                    "id": {"type": "primary"},
+                    "pagetitle": {"type": "varchar", "size": "150", "edit": "text", "widget": "text", "onsave": "stripTags"}
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+<input id="[+field+]" name="[+field+]" type="checkbox" value="1" class="easyui-validatebox" [+additional+] />

@@ -1,0 +1,103 @@
+{
+    "name": "category",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "categories",
+            "ar_model": "Category"            
+        }
+    ],
+    "grid": [
+        {
+            "title": "Список категорий",
+            "style": "width:900px;height:650px",
+            "pagination": "true",
+            "rownumbers": "false",
+            "fitColumns": "true",
+            "singleSelect": "true",
+            "options": "pageList:[10,50,100,500], method: 'post'",
+            "serch": "category:Категория,id:ID"
+        }
+    ],
+    "form": [
+        {
+            "title": "Данные категории",
+            "style": "width:500px;height:450px"
+        }
+    ],
+    "fields": [
+        {
+            "id": {
+                "name": "ID", 
+                "options": "width1:120,align:'center'",
+                "output": "text"
+            },
+            "category": {
+                "name": "Наименование категории", 
+                "options": "width1:300",
+                "input": "text",
+                "required": "true",
+                "disabled": "false",
+                "validate": "minLength[4]",
+                "output": "text",
+                "data-options": "required:true,validType:'minLength[4]'"
+            },
+            "alias": {
+                "name": "Псевдоним",
+                "options": "width1:300,align:'left'",
+                "input": "text",
+                "output": "text",
+                "data-options": ""
+            },
+            "parent": {
+                "name": "Родительская категория", 
+                "options": "width1:300",
+                "input": "combobox",
+                "istyle": "width:200px",
+                "list": "@SELECT id,category FROM ob_xa_categories ORDER BY category",
+                "required": "false",
+                "disabled": "false",
+                "validate": "",
+                "output": "false",
+                "extend": "pcat:category",
+                "data-options": ""
+            },
+            "p_category":{
+                "name": "Родительская категория", 
+                "options": "width1:300",
+                "input": "false",
+                "output": "text",
+                "data-options": ""
+            },
+            "active": {
+                "name": "Опубликована",
+                "options": "width1:60,align:'center'",
+                "input": "checkbox",
+                "output": "bool",
+                "required": "false",
+                "view": "Да:Нет",
+                "data-options": ""
+            },
+            "menuindex": {
+                "name": "Порядок в меню",
+                "options": "align:'center'",
+                "input": "text",
+                "output": "text",
+                "data-options": ""
+            },
+            "link_to_good": {
+                "input": "false",
+                "name": "Просмотреть товары",
+                "output": "link",
+                "linkhref": "8",
+                "linktext": "",
+                "data-options": ""
+            }
+        }
+    ]
+}

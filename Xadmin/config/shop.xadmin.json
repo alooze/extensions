@@ -1,0 +1,82 @@
+{
+    "name": "shop",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "shops",
+            "ar_model": "Shop"            
+        }
+    ],
+    "grid": [
+        {
+            "title": "Список магазинов",
+            "style": "width:700px;height:350px",
+            "pagination": "true",
+            "rownumbers": "false",
+            "fitColumns": "true",
+            "singleSelect": "true",
+            "options": "pageList:[10,50,100,500], method: 'post'"
+        }
+    ],
+    "form": [
+        {
+            "title": "Данные магазинов",
+            "style": "width:500px;height:450px"
+        }
+    ],
+    "fields": [
+        {
+            "id": {
+                "name": "ID", 
+                "options": "width1:120,align:'center'",
+                "output": "text"
+            },
+            "shoptitle": {
+                "name": "Наименование магазина", 
+                "options": "width1:300",
+                "input": "text",
+                "required": "true",
+                "disabled": "false",
+                "validate": "minLength[4]",
+                "output": "text"
+            },
+            "alias": {
+                "name": "Псевдоним",
+                "options": "width1:300,align:'left'",
+                "input": "text",
+                "output": "text"
+            },
+            "address": {
+                "name": "Адрес магазина", 
+                "options": "width1:300",
+                "input": "text",
+                "required": "false",
+                "disabled": "false",
+                "validate": "minLength[10]",
+                "output": "text"
+            },
+            "phone": {
+                "name": "Телефоны магазина", 
+                "options": "width1:300",
+                "input": "text",
+                "required": "true",
+                "disabled": "false",
+                "validate": "minLength[8]",
+                "output": "text"
+            },
+            "status": {
+                "name": "Статус магазина",
+                "options": "align:'center'",
+                "input": "select",
+                "istyle": "width:200px",
+                "list": "@SELECT 0:Частное лицо,1:Организация",
+                "required": "false"
+            }
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+<input id="[+field+]" name="[+field+]" type="text" class="easyui-datebox" data-options="[+data-options+]" [+additional+]  />

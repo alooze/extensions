@@ -1,0 +1,26 @@
+{
+    "name": "content-blog",
+    "homepage": "",
+    "description": "MODX Evolution/Clipper CMS Store extension. Config for single table",
+    "keywords": ["modx", "modxevo", "store"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "site_content",
+            "where": "parent=2",
+            "fields": [
+                {
+                    "id": {"type": "primary"},
+                    "title": {"type": "varchar", "size": "150", "edit": "text", "widget": "text", "onsave": "stripTags"},
+                    "price": {"type": "varchar", "size": "20", "edit": "text", "widget": "text", "onsave": "stripTags"}
+                }
+            ]
+        }
+    ]
+}

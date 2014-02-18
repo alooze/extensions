@@ -1,0 +1,15 @@
+{
+    "name": "user",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "ob_manager_users",
+            "ar_model": "User"
+        }
+    ]
+}

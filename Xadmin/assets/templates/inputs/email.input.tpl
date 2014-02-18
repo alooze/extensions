@@ -1,0 +1,1 @@
+<input id="[+field+]" name="[+field+]" type="email" class="easyui-validatebox" validType="email" data-options="[+options+]" [+additional+] required="[+required+]" />

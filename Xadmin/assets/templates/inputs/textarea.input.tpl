@@ -1,0 +1,1 @@
+<textarea id="[+field+]" name="[+field+]" cols="70" rows="5" data-options="[+options+]" [+additional+] required="[+required+]"></textarea>

@@ -3,7 +3,7 @@ use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
 /*
-* test2222
+* te44222
 */
 
 $adm = new Xadmin();
@@ -447,4 +447,4 @@ if ($config != '') {
 } else {
     return $adm->lang('No party without config');
 }
-return;
+retu

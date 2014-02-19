@@ -74,7 +74,7 @@
                 "options": "align:'center'",
                 "input": "select",
                 "istyle": "width:200px",
-                "list": "@SELECT 0:Частное лицо,1:Организация",
+                "list": "0==Частное лицо|1==Организация",
                 "required": "false"
             }
         }

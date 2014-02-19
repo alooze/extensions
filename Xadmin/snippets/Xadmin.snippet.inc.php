@@ -2,9 +2,7 @@
 use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
-/**
- * 123
- */
+
 $adm = new Xadmin();
 
 //получаем параметры вызова

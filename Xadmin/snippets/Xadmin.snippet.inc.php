@@ -2,6 +2,9 @@
 use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
+/*
+* test2222
+*/
 
 $adm = new Xadmin();
 

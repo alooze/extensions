@@ -2,10 +2,6 @@
 use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
-/*
-* te44222
-*/
-
 $adm = new Xadmin();
 
 //получаем параметры вызова
@@ -443,8 +439,4 @@ if ($config != '') {
                 //
                 break;
         }
-    }
-} else {
-    return $adm->lang('No party without config');
-}
-retu
+  

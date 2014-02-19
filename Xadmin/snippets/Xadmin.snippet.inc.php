@@ -4,6 +4,8 @@ use Modx\Ext\Xparser\Xparser;
 
 
 
+
+
 $adm = new Xadmin();
 
 //получаем параметры вызова
@@ -437,12 +439,10 @@ if ($config != '') {
                 unset($res);
                 die($output);
 
-            default:
+           default:
                 //
                 break;
         }
     }
 } else {
-    return $adm->lang('No party without config');
-}
-return;
+    ret

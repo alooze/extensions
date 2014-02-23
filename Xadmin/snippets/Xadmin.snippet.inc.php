@@ -3,7 +3,7 @@ use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
 /*
-* te4422234
+* test777777
 */
 
 $adm = new Xadmin();

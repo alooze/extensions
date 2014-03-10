@@ -15,13 +15,8 @@
     "grid": [
         {
             "title": "Список категорий",
-            "style": "width:700px;height:350px",
-            "pagination": "true",
-            "rownumbers": "false",
-            "fitColumns": "true",
-            "singleSelect": "true",
-            "options": "pageList:[10,50,100,500], method: 'post'",
-            "serch": "category:Категория,id:ID"
+            "style": "width:900px;height:650px",
+            "search": "category:Категория,id:ID"
         }
     ],
     "form": [
@@ -59,7 +54,7 @@
                 "options": "width1:300",
                 "input": "combobox",
                 "istyle": "width:200px",
-                "list": "@SELECT id,category FROM guns_xa_categories ORDER BY category",
+                "list": "@SELECT id,category",
                 "required": "false",
                 "disabled": "false",
                 "validate": "",

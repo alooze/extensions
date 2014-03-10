@@ -2,10 +2,6 @@
 use Modx\Ext\Xadmin\Xadmin;
 use Modx\Ext\Xparser\Xparser;
 
-
-
-
-
 $adm = new Xadmin();
 
 //получаем параметры вызова
@@ -77,10 +73,10 @@ if ($config != '') {
                 $row->strToTpl($rowTpl);
 
                 //готовим место для полей в форме редактирования
-                $phf['finner'] = '';
-                $fRow = new Xparser();
-                //чтобы каждый раз в цикле не дергать файлы/чанки, установим шаблон тут
-                $fRow->strToTpl($formRowTpl);
+                // $phf['finner'] = '';
+                // $fRow = new Xparser();
+                // //чтобы каждый раз в цикле не дергать файлы/чанки, установим шаблон тут
+                // $fRow->strToTpl($formRowTpl);
 
                 //заполняем URL страницы с формой
                 $ph['url'] = $modx->makeUrl($modx->documentIdentifier);
@@ -101,9 +97,7 @@ if ($config != '') {
                         
                     // если в конфиге output стоит в false, не показываем колонку
                     if ($data['output'] != 'false') {                    
-                        // Для некоторых видов инпутов требуется доработка
                         // Используем хуки
-
                         //для формирования некоторых полей требуется передать доп. данные
                         $data['ARM'] = $_ARM;
 
@@ -117,77 +111,75 @@ if ($config != '') {
                                             ->get();
                     }
 
-                    /**
-                     * Готовим форму редактирования
-                     */
-                    // если в конфиге не задан тип ввода, считаем, что в форме поле не нужно
-                    if (!isset($data['input'])) continue;
-                    // если в конфиге тип ввода false, поле не нужно 
-                    // @Todo: УТОЧНИТЬ ПРЕОБРАЗОВАНИЕ строки в логическую переменную
-                    if ($data['input'] == 'false') continue;
+                    // /**
+                    //  * Готовим форму редактирования
+                    //  */
+                    // // если в конфиге не задан тип ввода, считаем, что в форме поле не нужно
+                    // if (!isset($data['input'])) continue;
+                    // // если в конфиге тип ввода false, поле не нужно 
+                    // // @Todo: УТОЧНИТЬ ПРЕОБРАЗОВАНИЕ строки в логическую переменную
+                    // if ($data['input'] == 'false') continue;
 
-                    //устанавливаем плейсхолдеры для нужного инпута
-                    $inputType = $data['input'];
-                    $inputFile = MODX_BASE_PATH.'assets/extensions/Xadmin/assets/templates/inputs/'.$inputType.'.input.tpl';
+                    // //устанавливаем плейсхолдеры для нужного инпута
+                    // $inputType = $data['input'];
+                    // $inputFile = MODX_BASE_PATH.'assets/extensions/Xadmin/assets/templates/inputs/'.$inputType.'.input.tpl';
 
-                    if (!is_file($inputFile)) {
-                        return $adm->lang('Bad input template').': '.$inputType;
-                    }
+                    // if (!is_file($inputFile)) {
+                    //     return $adm->lang('Bad input template').': '.$inputType;
+                    // }
 
-                    // Для некоторых видов инпутов требуется доработка
-                    // Используем хуки
+                    // // Для некоторых видов инпутов требуется доработка
+                    // // Используем хуки
 
-                    //для формирования некоторых полей требуется передать доп. данные
-                    $data['ARM'] = $_ARM;
+                    // //для формирования некоторых полей требуется передать доп. данные
+                    // $data['ARM'] = $_ARM;
                     
-                    // вызываем хук-функцию
-                    $adm->invokeHook('OnBeforeXadminInputTemplateRender', 
-                        $data,
-                        $data
-                    );
+                    // // вызываем хук-функцию
+                    // $adm->invokeHook('OnBeforeXadminInputTemplateRender', 
+                    //     $data,
+                    //     $data
+                    // );
 
-                    // print_r($data);
+                    // // print_r($data);
 
-                    $formInput = new Xparser();
-                    $phh['name'] = $data['name'];
-                    $phh['input'] = $formInput->strToTpl('@FILE '.$inputFile)
-                                                ->setPh($data)
-                                                ->parse()
-                                                ->get();
+                    // $formInput = new Xparser();
+                    // $phh['name'] = $data['name'];
+                    // $phh['input'] = $formInput->strToTpl('@FILE '.$inputFile)
+                    //                             ->setPh($data)
+                    //                             ->parse()
+                    //                             ->get();
 
-                    $phf['finner'].= $fRow->setPh($phh)
-                                            ->parse()
-                                            ->get();
-                    unset($phh);
-                    unset($formInput);
-                    unset($inputFile);
+                    // $phf['finner'].= $fRow->setPh($phh)
+                    //                         ->parse()
+                    //                         ->get();
+                    // unset($phh);
+                    // unset($formInput);
+                    // unset($inputFile);
                 }
 
-
+                // /**
+                //  * Оборачиваем инпуты в шаблон формы
+                //  */
+                // $form = new Xparser();
+                // $formData = $adm->config['form'][0];
+                // $phf = array_merge($phf, $formData);
+                // $ph['form'] = $form->strToTpl($formOuterTpl)
+                //         ->setPh($phf)
+                //         ->parse()
+                //         ->get();                
 
                 /**
-                 * Оборачиваем инпуты в шаблон формы
+                 * Формируем поля ввода для поиска и строки в функции для поиска
                  */
-                $form = new Xparser();
-                $formData = $adm->config['form'][0];
-                $phf = array_merge($phf, $formData);
-                $ph['form'] = $form->strToTpl($formOuterTpl)
-                        ->setPh($phf)
-                        ->parse()
-                        ->get();                
-
-                /**
-                * Формируем поля ввода для поиска и строки в функции для поиска
-                */
-                if(isset($adm->config['grid'][0]['serch']) && trim($adm->config['grid'][0]['serch']) != '') {
+                if(isset($adm->config['grid'][0]['search']) && trim($adm->config['grid'][0]['search']) != '') {
 
                     $parseInput = new Xparser(); // fields of search data
                     $parseInput->strToTpl($searchRowTpl);
                     //$parseJs = new Xparser();
-                    $ph['searchRowJs'] = ''; // row if js function doSerch()
+                    $ph['searchRowJs'] = ''; // row if js function doSearch()
 
-                    $arr = explode(",", $adm->config['grid'][0]['serch']);
-                    $sArr = array(); // array of serch fields and text
+                    $arr = explode(",", $adm->config['grid'][0]['search']);
+                    $sArr = array(); // array of search fields and text
                     foreach ($arr as $key => $value) {
                         $value = explode(":", $value);
                         $sArr['text'] = $value[1];
@@ -200,8 +192,6 @@ if ($config != '') {
                     $ph['searchRowJs'] = trim($ph['searchRowJs'], ",");
 
                 }
-
-
                 
                 /**
                  * Оборачиваем форму и шапку таблицы и выводим
@@ -213,10 +203,12 @@ if ($config != '') {
                         ->show();
                 break;
 
+
+
+            /**
+             * Отдаем список аяксом в виде json
+             */
             case 'data-json':
-                /**
-                 * Отдаем список аяксом в виде json
-                 */
                 $outerTplJson = '@CODE {"total":[+total+],"rows":[ [+inner+] ]}';
                 $ph['total'] = 0;
 
@@ -233,12 +225,12 @@ if ($config != '') {
 
                 //// SEARCH ////
                 $condStrSql = '';
-                if(isset($adm->config['grid'][0]['serch']) && trim($adm->config['grid'][0]['serch']) != '') {
+                if(isset($adm->config['grid'][0]['search']) && trim($adm->config['grid'][0]['search']) != '') {
 
                     $sConfArr = array(); // массив полей поиска из конфига; для проверки
-                    $searchConf = trim($adm->config['grid'][0]['serch']); // category:Category,id:ID
-                    $serchConfArr = explode(",", $searchConf);
-                    foreach ($serchConfArr as $key => $value) {
+                    $searchConf = trim($adm->config['grid'][0]['search']); // category:Category,id:ID
+                    $searchConfArr = explode(",", $searchConf);
+                    foreach ($searchConfArr as $key => $value) {
                         $value = explode(":", $value);
                         $sConfArr[$value[0]] = '';
                     }
@@ -291,19 +283,13 @@ if ($config != '') {
                      * метод to_json() к сожалению не прокатит
                      */
                     // $phAr[]= $item->to_json();
-                    foreach ($cols as $key => $data) {
-                        
-                        if($data['output'] == 'false') { continue; }
+                    foreach ($cols as $key => $data) {                        
+                        // if($data['output'] == 'false') { continue; }
                         // формируем поля с ссылками, если есть в настройках конфига
                         if ($data['output'] == 'link') {
-
-                            $tmpAr[$key] = '<a href="'.$modx->makeUrl($data['linkhref']).'?id='.$item->id.'">link</a>';
-
-                        
+                            $tmpAr[$key] = '<a href="'.$modx->makeUrl($data['linkhref']).'?id='.$item->id.'">link</a>';                        
                         } else {
-
                             $tmpAr[$key] = $item->$key;
-
                         }
 
                         // этот код пока не удаляем, но его удалось заменить
@@ -329,61 +315,21 @@ if ($config != '') {
                 die();
                 break;
 
+
+            /**
+             * Добавление строки
+             */
             case 'save':
-                
-                //$cols = $adm->config['fields'][0];
-
                 $obj = new $_ARM();
-
                 $attr = $obj->attributes();
-
                 $dataToInsert = array();
-
                 foreach ($attr as $key => $value) {
                     if(isset($_REQUEST[$key])) {
-                        /*if($key == 'alias') {
-
-                            if(trim($_REQUEST[$key]) == '') {
-                                $_REQUEST[$key] = $_REQUEST['category']; // TO DO: change $_REQUEST['category']
-                            }
-                            
-                            // функция генерации алиаса
-                            function setAlias ($alias) {
-                                $iso = array("а"=>"a", "б"=>"b", "в"=>"v", "г"=>"g", "д"=>"d", "е"=>"e",
-                                    "ё"=>"jo", "ж"=>"zh", "з"=>"z", "и"=>"i", "й"=>"jj", "к"=>"k", "л"=>"l",
-                                    "м"=>"m", "н"=>"n", "о"=>"o", "п"=>"p", "р"=>"r", "с"=>"s", "т"=>"t", "у"=>"u",
-                                    "ф"=>"f", "х"=>"kh", "ц"=>"c", "ч"=>"ch", "ш"=>"sh", "щ"=>"shh", "ы"=>"y",
-                                    "э"=>"eh", "ю"=>"yu", "я"=>"ya", "А"=>"a", "Б"=>"b", "В"=>"v", "Г"=>"g",
-                                    "Д"=>"d", "Е"=>"e", "Ё"=>"jo", "Ж"=>"zh", "З"=>"z", "И"=>"i", "Й"=>"jj",
-                                    "К"=>"k", "Л"=>"l", "М"=>"m", "Н"=>"n", "О"=>"o", "П"=>"p", "Р"=>"r", "С"=>"s",
-                                    "Т"=>"t", "У"=>"u", "Ф"=>"f", "Х"=>"kh", "Ц"=>"c", "Ч"=>"ch", "Ш"=>"sh",
-                                    "Щ"=>"shh", "Ы"=>"y", "Э"=>"eh", "Ю"=>"yu", "Я"=>"ya", " "=>"-", "."=>"-",
-                                    ","=>"-", "_"=>"-", "+"=>"", ":"=>"", ";"=>"", "!"=>"", "?"=>"", "/"=>"", "\\"=>"");
-                                //$title = mb_convert_encoding($alias, 'cp-1251', 'UTF-8');
-                                $alias = strtr($alias, $iso);
-                                return $alias;
-                            }
-
-                            $alias = setAlias($_REQUEST[$key]);
-
-                            // check if alias isset
-                            
-                            $res = $_ARM::find_by_alias($alias);
-                            if($res) { $alias .= "-".$res->id; } // TO DO: change $_REQUEST['id']
-                            
-                            $_REQUEST[$key] = $alias;
-
-                        } // end if($key == 'alias')
-                        */
-
                         $dataToInsert[$key] = $_REQUEST[$key];
                     } 
                 }
-
                 unset($dataToInsert['id']);
-
-                $res = $_ARM::create($dataToInsert);
-                
+                $res = $_ARM::create($dataToInsert);                
                 if ($res){
                     $output = json_encode(array('success'=>true));
                 } else {
@@ -392,27 +338,22 @@ if ($config != '') {
                 unset($res);
                 die($output);
 
-            case 'update':
-                
-                $cols = $adm->config['fields'][0];
 
+
+            /**
+             * Обновление строки
+             */
+            case 'update':
+                $cols = $adm->config['fields'][0];
                 $id = intval($_REQUEST['id']);
 
-                //die(print_r($_REQUEST));
-
                 $dataToUpdate = array();
-
                 foreach ($cols as $key => $value) {
                     if(isset($_REQUEST[$key])) {
                         $dataToUpdate[$key] = $_REQUEST[$key];
                     }
-                    /* else {
-                        $dataToUpdate[$key] = '';
-                    }*/
                 }
                 unset($dataToUpdate['id']);
-
-                //$dataToUpdate[] = array('id', array($id));
 
                 $res = $_ARM::table()->update($dataToUpdate, array('id' => array($id)));
                 
@@ -424,13 +365,13 @@ if ($config != '') {
                 unset($res);
                 die($output);
 
-            case 'remove':
-                
 
+            /**
+             * Удаление строки
+             */
+            case 'remove': 
                 $id = intval($_REQUEST['id']);
-
-                $res = $_ARM::table()->delete(array('id' => array($id)));
-                
+                $res = $_ARM::table()->delete(array('id' => array($id)));                
                 if ($res){
                     $output = json_encode(array('success'=>true));
                 } else {
@@ -439,7 +380,103 @@ if ($config != '') {
                 unset($res);
                 die($output);
 
-           default:
+
+            /**
+             * Подгрузка формы в модальное окно
+             */
+            case 'form':
+                // получаем данные по колонкам
+                $cols = $adm->config['fields'][0];
+                if (!is_array($cols)) {
+                    die($adm->lang('Broken extension config'));
+                }
+
+                //готовим место для полей в форме редактирования
+                $phf['finner'] = '';
+                $fRow = new Xparser();
+                //чтобы каждый раз в цикле не дергать файлы/чанки, установим шаблон тут
+                $fRow->strToTpl($formRowTpl);
+
+                //заполняем URL страницы с формой
+                $ph['url'] = $modx->makeUrl($modx->documentIdentifier);
+
+                //получаем данные по расширенным параметрам
+                $params = $adm->config['avs'][0];
+
+                // print_r($cols);
+                // die();
+                foreach ($cols as $key => $data) {
+                    /**
+                     * Готовим форму редактирования
+                     */
+                    // если в конфиге не задан тип ввода, считаем, что в форме поле не нужно
+                    if (!isset($data['input'])) continue;
+                    // если в конфиге тип ввода false, поле не нужно 
+                    // @Todo: УТОЧНИТЬ ПРЕОБРАЗОВАНИЕ строки в логическую переменную
+                    if ($data['input'] == 'false') continue;
+
+                    //устанавливаем плейсхолдеры для нужного инпута
+                    $inputType = $data['input'];
+                    $inputFile = MODX_BASE_PATH.'assets/extensions/Xadmin/assets/templates/inputs/'.$inputType.'.input.tpl';
+
+                    if (!is_file($inputFile)) {
+                        return $adm->lang('Bad input template').': '.$inputType;
+                    }
+
+                    // Для некоторых видов инпутов требуется доработка
+                    // Используем хуки
+
+                    //для формирования некоторых полей требуется передать доп. данные
+                    $data['ARM'] = $_ARM;
+                    
+                    // вызываем хук-функцию
+                    $adm->invokeHook('OnBeforeXadminInputTemplateRender', 
+                        $data,
+                        $data
+                    );
+
+                    // print_r($data);
+
+                    $formInput = new Xparser();
+                    $data['field'] = $key;
+                    $phh['name'] = $data['name'];
+                    $phh['input'] = $formInput->strToTpl('@FILE '.$inputFile)
+                                                ->setPh($data)
+                                                ->parse()
+                                                ->get();
+
+                    $phf['finner'].= $fRow->setPh($phh)
+                                            ->parse()
+                                            ->get();
+                    unset($phh);
+                    unset($formInput);
+                    unset($inputFile);
+                }
+
+                /**
+                 * Если есть расширенные параметры, добавляем их к форме
+                 */
+                if (is_array($params)) {
+                    //
+                }
+
+                /**
+                 * Оборачиваем инпуты в шаблон формы
+                 */
+                $form = new Xparser();
+                $formData = $adm->config['form'][0];
+                $phf = array_merge($phf, $formData);
+                $formCode = $form->strToTpl($formOuterTpl)
+                        ->setPh($phf)
+                        ->parse()
+                        ->get();
+
+                $formCode = preg_replace('~\[\+(.*?)\+\]~', "", $formCode); 
+
+                die($formCode);
+                break;
+
+            default:
                 //
                 break;
         }

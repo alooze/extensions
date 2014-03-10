@@ -28,6 +28,9 @@ switch ($e->name) {
             $loader->addNamespace('Modx\Ext\Xadmin', MODX_BASE_PATH.'assets/extensions/Xadmin/lib');
             $loader->addNamespace('Modx\Ext\Xadmin\Models', MODX_BASE_PATH.'assets/extensions/ActiveRecord/models');
             $loader->addNamespace('ActiveRecord', MODX_BASE_PATH.'assets/extensions/ActiveRecord/lib');
+            $loader->addNamespace('Modx\Ext\AutoFilter', MODX_BASE_PATH.'assets/extensions/AutoFilter/lib');
+            $loader->addNamespace('Modx\Ext\AutoFilter\AfModels', MODX_BASE_PATH.'assets/extensions/AutoFilter/lib/models');
+            $loader->addNamespace('Modx\Ext\AutoFilter\AfInputs', MODX_BASE_PATH.'assets/extensions/AutoFilter/lib/inputs');
         }
     break;
 }

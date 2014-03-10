@@ -138,6 +138,14 @@ class Xparser extends ModxExtensionCore
     {
         return $this->output;
     }
+
+    /**
+     * Возврат текущего шаблона
+     */
+    public function getTpl() 
+    {
+        return $this->template;
+    }
   
     /**
      * Добавляет ошибку в массив всех ошибок
@@ -211,6 +219,10 @@ class Xparser extends ModxExtensionCore
             return $this;
         }
         $this->output = $this->template;
+
+        if (!is_array($this->placeholdersAr)) {
+          return $this;
+        }
         
         //пока просто подстановка
         foreach ($this->placeholdersAr as $key => $val) {

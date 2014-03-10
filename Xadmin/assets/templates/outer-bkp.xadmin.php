@@ -1,70 +1,75 @@
-<h2>Категории каталога</h2>
+<h2>[*pagetitle*]</h2>
 <div class="demo-info">
     <div class="demo-tip icon-tip"></div>
-    <div>Кликните на строке для ее быстрого редактирования.</div>
+    <div>Выделите строку в таблице и нажмите кнопку для редактирования.</div>
 </div>
-<div style="margin:10px 0;"></div>
 
-<table id="dg" class="easyui-datagrid" title="Быстрое редактирование" style="width:800px;height:auto"
-        data-options="
-            iconCls: 'icon-edit',
-            singleSelect: true,
-            toolbar: '#tb',
-            url: '[+url+]?action=data-json',
-            method: 'post',
-            onDblClickRow: onDblClickRow
-        ">
+<table id="dg" title="[+title+]" class="easyui-datagrid" style="[+style+]"
+        url="[+url+]?action=data-json"
+        toolbar="#toolbar" 
+        pagination="[+pagination+]"
+        rownumbers="[+rownumbers+]" 
+        fitColumns="[+fitColumns+]" 
+        singleSelect="[+singleSelect+]"
+        data-options="[+options+]">
     <thead>
         <tr>
             [+inner+]
-            <!--
-            <th data-options="field:'itemid',width:80">Item ID</th>
-            <th data-options="field:'productid',width:100,
-                    formatter:function(value,row){
-                        return row.productname;
-                    },
-                    editor:{
-                        type:'combobox',
-                        options:{
-                            valueField:'productid',
-                            textField:'productname',
-                            url:'products.json',
-                            required:true
-                        }
-                    }">Product</th>
-            <th data-options="field:'listprice',width:80,align:'right',editor:{type:'numberbox',options:{precision:1}}">List Price</th>
-            <th data-options="field:'unitcost',width:80,align:'right',editor:'numberbox'">Unit Cost</th>
-            <th data-options="field:'attr1',width:250,editor:'text'">Attribute</th>
-            <th data-options="field:'status',width:60,align:'center',editor:{type:'checkbox',options:{on:'P',off:''}}">Status</th>
-        -->
         </tr>
     </thead>
 </table>
-
-<div id="tb" style="height:auto">
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Добавить</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Удалить</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">Применить</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">Отменить</a>
-    <!-- <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">GetChanges</a> -->
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addRow()">Создать</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRow()">Редактировать</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeRow()">Удалить</a>
+    <div>
+        [+searchData+]
+        <a href="[~[*id*]~]#" class="easyui-linkbutton" onclick="doSearch()">Искать</a>
+        <a href="[~[*id*]~]" class="easyui-linkbutton" onclick="resetSearch()">Сбросить</a>
+    </div>
 </div>
 
+[+form+]
+<script type="text/javascript" src="assets/extensions/Xadmin/assets/js/locale/easyui-lang-ru.js"></script>
 <script type="text/javascript">
-    var editIndex = undefined;
-    function endEditing(){
-        if (editIndex == undefined){return true}
-        if ($('#dg').datagrid('validateRow', editIndex)){
-            var ed = $('#dg').datagrid('getEditor', {index:editIndex,field:'productid'});
-            var productname = $(ed.target).combobox('getText');
-            $('#dg').datagrid('getRows')[editIndex]['productname'] = productname;
-            $('#dg').datagrid('endEdit', editIndex);
-            editIndex = undefined;
-            return true;
-        } else {
-            return false;
+    var url;
+    function addRow(){
+        $('#dlg').dialog('open').dialog('setTitle','Добавить');
+        $('#fm').form('clear');
+        url = '[+url+]?action=save';
+    }
+    function editRow(){
+        var row = $('#dg').datagrid('getSelected');
+        // alert(row.id);
+        if (row){
+            $('#dlg').dialog('open').dialog('setTitle','Редактировать');
+            $('#fm').form('load',row);
+//            alert(row.active);
+            url = '[+url+]?action=update&id='+row.id;
         }
     }
+    function saveRow(){
+        $('#fm').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.success){
+                    $('#dlg').dialog('close');      // close the dialog
+                    $('#dg').datagrid('reload');    // reload the user data
+                } else {
+                    $.messager.show({
+                        title: 'Ошибка',
+                        msg: result.msg
+                    });
+                }
+            }
+        });
+    }
     function onDblClickRow(index){
+        
         if (editIndex != index){
             if (endEditing()){
                 $('#dg').datagrid('selectRow', index)
@@ -74,32 +79,86 @@
                 $('#dg').datagrid('selectRow', editIndex);
             }
         }
-    }
-    function append(){
-        if (endEditing()){
-            $('#dg').datagrid('appendRow',{status:'P'});
-            editIndex = $('#dg').datagrid('getRows').length-1;
-            $('#dg').datagrid('selectRow', editIndex)
-                    .datagrid('beginEdit', editIndex);
+
+	}
+    
+	function removeRow(){
+        var row = $('#dg').datagrid('getSelected');
+        if (row){
+            $.messager.confirm('Подтвердите','Вы уверены, что хотите удалить строку?',function(r){
+                if (r){
+                    $.post('[+url+]?action=remove',{id:row.id},function(result){
+                        if (result.success){
+                            $('#dg').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.show({   // show error message
+                                title: 'Ошибка',
+                                msg: result.msg
+                            });
+                        }
+                    },'json');
+                }
+            });
         }
     }
-    function removeit(){
-        if (editIndex == undefined){return}
-        $('#dg').datagrid('cancelEdit', editIndex)
-                .datagrid('deleteRow', editIndex);
-        editIndex = undefined;
-    }
-    function accept(){
-        if (endEditing()){
-            $('#dg').datagrid('acceptChanges');
+
+    $('#dg').datagrid({
+        onDblClickRow: function(rowIndex,row){
+          if (row){
+            $('#dlg').dialog('open').dialog('setTitle','Редактирование');
+            $('#fm').form('load',row);
+            url = '[+url+]?action=update&id='+row.id;
+          }
+        },
+        rowStyler: function(index,row){
+            if (row.active != 1){
+                return 'background-color:#6293BB;color:#fff;'; // return inline style
+                // the function can return predefined css class and inline style
+                // return {class:'r1', style:{'color:#fff'}};   
+            }
         }
+    });
+
+    /* VALIDATION RULES */
+    $.extend($.fn.validatebox.defaults.rules, {
+        minLength: {
+            validator: function(value, param){
+                return value.length >= param[0];
+            },
+            message: 'Please enter at least {0} characters.'
+        }
+    });
+
+    /* SEARCH */
+    function doSearch(){
+        $('#dg').datagrid('load',{
+            //serch: $('#serch').val()
+            [+searchRowJs+]
+        });
     }
-    function reject(){
-        $('#dg').datagrid('rejectChanges');
-        editIndex = undefined;
+
+    function resetSearch(){
+        $('#dg').datagrid('reload');
     }
-    function getChanges(){
-        var rows = $('#dg').datagrid('getChanges');
-        alert(rows.length+' rows are changed!');
-    }
+
 </script>
+<style type="text/css">
+    #fm{
+      margin:0;
+      padding:10px 30px;
+    }
+    .ftitle{
+      font-size:14px;
+      font-weight:bold;
+      padding:5px 0;
+      margin-bottom:10px;
+      border-bottom:1px solid #ccc;
+    }
+    .fitem{
+      margin-bottom:5px;
+    }
+    .fitem label{
+      display:inline-block;
+      width:80px;
+    }
+</style>

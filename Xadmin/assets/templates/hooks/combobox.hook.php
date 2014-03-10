@@ -32,8 +32,8 @@ if (is_array($params['list'])) {
 
 if (substr($params['list'], 0, 7) == '@SELECT') {
     $q = substr($params['list'], 8);
-    $flds = substr($q, 0, strpos($q, ' '));
-    list($k, $v) = explode(',', $flds);
+    $flds = substr($q, 0);
+    list($k, $v) = explode(',', $flds);    
 
     $obj = new $_ARM();
 

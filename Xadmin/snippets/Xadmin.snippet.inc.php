@@ -445,4 +445,6 @@ if ($config != '') {
         }
     }
 } else {
-    ret
+    return $adm->lang('No party without config');
+}
+return;

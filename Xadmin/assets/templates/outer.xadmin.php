@@ -4,14 +4,15 @@
     <div>Выделите строку в таблице и нажмите кнопку для редактирования.</div>
 </div>
 
-<table id="dg" title="[+title+]" class="easyui-datagrid" style="[+style+]"
-        url="[+url+]?action=data-json"
+<table id="dg" title="[+title+]" class="peasyui-datagrid" style="[+style+]">
+        <purl="[+url+]?action=data-json"
         toolbar="#toolbar" 
-        pagination="[+pagination+]"
         rownumbers="[+rownumbers+]" 
         fitColumns="[+fitColumns+]" 
         singleSelect="[+singleSelect+]"
-        data-options="[+options+]">
+        data-options="[+options+]"
+        pagePosition="both"
+        pagination="[+pagination+]"/>
     <thead>
         <tr>
             [+inner+]
@@ -24,27 +25,100 @@
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeRow()">Удалить</a>
     <div>
         [+searchData+]
-        <a href="[~[*id*]~]#" class="easyui-linkbutton" onclick="doSearch()">Искать</a>
-        <a href="[~[*id*]~]" class="easyui-linkbutton" onclick="resetSearch()">Сбросить</a>
+        <button type="button" class="btn btn-default" onclick="doSearch()">
+            Искать
+        </button>
+        <button type="button" class="btn btn-default" onclick="resetSearch()">
+            Сбросить
+        </button>
+        <!-- <a href="[~[*id*]~]#" class="easyui-linkbutton" onclick="doSearch()">Искать</a>
+        <a href="[~[*id*]~]" class="easyui-linkbutton" onclick="resetSearch()">Сбросить</a> -->
     </div>
 </div>
 
-[+form+]
+[+fform+]
+<div id="dlg" class="easyui-dialog" style="[+style+]"
+            buttons="#dlg-buttons"></div>
+
 <script type="text/javascript" src="assets/extensions/Xadmin/assets/js/locale/easyui-lang-ru.js"></script>
 <script type="text/javascript">
     var url;
+    var rowData;
+
+    $(function() {
+        $('#dlg').dialog({
+            href: '[+url+]?action=form',
+            closed: true,
+            closable: true,
+            modal: true,
+            onLoad: loadForm()
+        });
+
+        $('#fm').form({
+            onLoadSuccess: function(){ alert('wow'); },
+            onLoadError: function(){ alert('foo'); },
+            onBeforeLoad: function(){ alert('now'); }
+        });
+
+        $('#dg').datagrid({
+            url: "[+url+]?action=data-json",
+            toolbar: "#toolbar", 
+            rownumbers: false,
+            fitColumns: true,
+            singleSelect: true,
+            pageList: [ 10,50,100,500 ],
+            method: "post",
+            pagePosition: "both",
+            pagination: true,
+            onDblClickRow: function(rowIndex,row){
+              if (row){
+                rowData = row;
+                $('#dlg').dialog('open')
+                    .dialog('refresh','[+url+]?action=form&id='+row.id)
+                    .dialog('setTitle','Редактирование');
+                // $('body #fm').form('clear');
+                // $('body #fm').form('load',row);
+                // alert(row.id);
+                // alert(row.menuindex);
+                url = '[+url+]?action=update&id='+row.id;
+              }
+            },
+            rowStyler: function(index,row){
+                if (row.active != 1){
+                    return 'background-color:#6293BB;color:#fff;'; // return inline style
+                    // the function can return predefined css class and inline style
+                    // return {class:'r1', style:{'color:#fff'}};   
+                }
+            }
+        });
+    });
+
+    function loadForm() {
+        $('body #fm').form('clear');
+        $('body #fm').form('load',rowData);
+    }
+
     function addRow(){
-        $('#dlg').dialog('open').dialog('setTitle','Добавить');
+        $('#dlg').dialog('open')
+            .dialog('setTitle','Добавить');        
         $('#fm').form('clear');
+        // $('#fm').form('');
         url = '[+url+]?action=save';
     }
     function editRow(){
         var row = $('#dg').datagrid('getSelected');
-        // alert(row.id);
         if (row){
-            $('#dlg').dialog('open').dialog('setTitle','Редактировать');
-            $('#fm').form('load',row);
-//            alert(row.active);
+            alert(row.id);
+            alert(row.menuindex);
+            $('#dlg').dialog('open').dialog('setTitle','Редактировать').dialog('refresh','[+url+]?action=form&id='+row.id);
+                // .dialog('refresh','[+url+]?action=form&id='+row.id)                
+                // .dialog('setTitle','Редактировать');
+
+            $('body #fm').form('load',row);
+            // alert(row.id);
+            // alert(row.menuindex);
+            // $('#fm').form('reset');
+            // $('#fm').form('load',row);
             url = '[+url+]?action=update&id='+row.id;
         }
     }
@@ -68,19 +142,6 @@
             }
         });
     }
-    function onDblClickRow(index){
-        
-        if (editIndex != index){
-            if (endEditing()){
-                $('#dg').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
-                editIndex = index;
-            } else {
-                $('#dg').datagrid('selectRow', editIndex);
-            }
-        }
-
-	}
     
 	function removeRow(){
         var row = $('#dg').datagrid('getSelected');
@@ -102,50 +163,35 @@
         }
     }
 
-    $('#dg').datagrid({
-        onDblClickRow: function(rowIndex,row){
-          if (row){
-            $('#dlg').dialog('open').dialog('setTitle','Редактирование');
-            $('#fm').form('load',row);
-            url = '[+url+]?action=update&id='+row.id;
-          }
-        },
-        rowStyler: function(index,row){
-            if (row.active != 1){
-                return 'background-color:#6293BB;color:#fff;'; // return inline style
-                // the function can return predefined css class and inline style
-                // return {class:'r1', style:{'color:#fff'}};   
-            }
-        }
-    });
+    
 
     /* VALIDATION RULES */
-    $.extend($.fn.validatebox.defaults.rules, {
-        minLength: {
-            validator: function(value, param){
-                return value.length >= param[0];
-            },
-            message: 'Please enter at least {0} characters.'
-        }
-    });
+    // $.extend($.fn.validatebox.defaults.rules, {
+    //     minLength: {
+    //         validator: function(value, param){
+    //             return value.length >= param[0];
+    //         },
+    //         message: 'Please enter at least {0} characters.'
+    //     }
+    // });
 
     /* SEARCH */
-    function doSearch(){
-        $('#dg').datagrid('load',{
-            //serch: $('#serch').val()
-            [+searchRowJs+]
-        });
-    }
+    // function doSearch(){
+    //     $('#dg').datagrid('load',{
+    //         //serch: $('#serch').val()
+    //         [+searchRowJs+]
+    //     });
+    // }
 
-    function resetSearch(){
-        $('#dg').datagrid('reload');
-    }
+    // function resetSearch(){
+    //     $('#dg').datagrid('reload');
+    // }
 
 </script>
 <style type="text/css">
     #fm{
       margin:0;
-      padding:10px 30px;
+      padding:30px 50px;
     }
     .ftitle{
       font-size:14px;

@@ -7,13 +7,13 @@ use ActiveRecord\Config as ARC;
 //подключаем собственный автозагрузчик AR
 require_once MODX_BASE_PATH.'assets/extensions/ActiveRecord/ActiveRecord.php';
 
-class Category extends ARM 
+class Anyvar extends ARM 
 {
     /**
      * пока нет способа передавать префикс таблиц в статические атрибуты
      * @Todo: пересмотреть в сторону упрощения
      */
-    static $table_name='guns_categories';
+    static $table_name='guns_anyvars';
 }
 
 /**

@@ -72,12 +72,6 @@ if ($config != '') {
                 //чтобы каждый раз в цикле не дергать файлы/чанки, установим шаблон тут
                 $row->strToTpl($rowTpl);
 
-                //готовим место для полей в форме редактирования
-                // $phf['finner'] = '';
-                // $fRow = new Xparser();
-                // //чтобы каждый раз в цикле не дергать файлы/чанки, установим шаблон тут
-                // $fRow->strToTpl($formRowTpl);
-
                 //заполняем URL страницы с формой
                 $ph['url'] = $modx->makeUrl($modx->documentIdentifier);
 
@@ -110,63 +104,7 @@ if ($config != '') {
                                             ->parse()
                                             ->get();
                     }
-
-                    // /**
-                    //  * Готовим форму редактирования
-                    //  */
-                    // // если в конфиге не задан тип ввода, считаем, что в форме поле не нужно
-                    // if (!isset($data['input'])) continue;
-                    // // если в конфиге тип ввода false, поле не нужно 
-                    // // @Todo: УТОЧНИТЬ ПРЕОБРАЗОВАНИЕ строки в логическую переменную
-                    // if ($data['input'] == 'false') continue;
-
-                    // //устанавливаем плейсхолдеры для нужного инпута
-                    // $inputType = $data['input'];
-                    // $inputFile = MODX_BASE_PATH.'assets/extensions/Xadmin/assets/templates/inputs/'.$inputType.'.input.tpl';
-
-                    // if (!is_file($inputFile)) {
-                    //     return $adm->lang('Bad input template').': '.$inputType;
-                    // }
-
-                    // // Для некоторых видов инпутов требуется доработка
-                    // // Используем хуки
-
-                    // //для формирования некоторых полей требуется передать доп. данные
-                    // $data['ARM'] = $_ARM;
-                    
-                    // // вызываем хук-функцию
-                    // $adm->invokeHook('OnBeforeXadminInputTemplateRender', 
-                    //     $data,
-                    //     $data
-                    // );
-
-                    // // print_r($data);
-
-                    // $formInput = new Xparser();
-                    // $phh['name'] = $data['name'];
-                    // $phh['input'] = $formInput->strToTpl('@FILE '.$inputFile)
-                    //                             ->setPh($data)
-                    //                             ->parse()
-                    //                             ->get();
-
-                    // $phf['finner'].= $fRow->setPh($phh)
-                    //                         ->parse()
-                    //                         ->get();
-                    // unset($phh);
-                    // unset($formInput);
-                    // unset($inputFile);
-                }
-
-                // /**
-                //  * Оборачиваем инпуты в шаблон формы
-                //  */
-                // $form = new Xparser();
-                // $formData = $adm->config['form'][0];
-                // $phf = array_merge($phf, $formData);
-                // $ph['form'] = $form->strToTpl($formOuterTpl)
-                //         ->setPh($phf)
-                //         ->parse()
-                //         ->get();                
+                }               
 
                 /**
                  * Формируем поля ввода для поиска и строки в функции для поиска
@@ -218,6 +156,9 @@ if ($config != '') {
                 $obj = new $_ARM();
                 $attr = $obj->attributes(); // поля таблицы
                 $conditions = array(); // условия выборки
+
+                // print_r($attr);
+                // die();
 
                 /**
                 * Обработка реквестов: пагинация, поиск и др.

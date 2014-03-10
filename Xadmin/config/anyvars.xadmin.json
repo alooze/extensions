@@ -1,0 +1,82 @@
+{
+    "name": "anyvar",
+    "authors": [
+        {
+            "name": "alooze",
+            "email": "alooze@gmail.com"
+        }
+    ],
+    "tables": [
+        {
+            "name": "anyvars",
+            "ar_model": "Anyvar"            
+        }
+    ],
+    "grid": [
+        {
+            "title": "Список переменных параметров",
+            "style": "width:900px;height:650px",
+            "search": "avname:Название,id:ID"
+        }
+    ],
+    "form": [
+        {
+            "title": "Свойства параметра",
+            "style": "width:500px;height:450px"
+        }
+    ],
+    "fields": [
+        {
+            "id": {
+                "name": "ID", 
+                "options": "width1:120,align:'center'",
+                "output": "text"
+            },
+            "avname": {
+                "name": "Наименование", 
+                "options": "width1:300",
+                "input": "text",
+                "required": "true",
+                "disabled": "false",
+                "validate": "minLength[3]",
+                "output": "text",
+                "data-options": "required:true,validType:'minLength[3]'"
+            },
+            "description": {
+                "name": "Описание",
+                "istyle": "width:300px",
+                "options": "width1:300,align:'left'",
+                "input": "text",
+                "output": "text",
+                "data-options": ""
+            },
+            "input": {
+                "name": "Тип ввода", 
+                "options": "width1:300",
+                "input": "select",
+                "istyle": "width:200px",
+                "list": "Text|Select",
+                "required": "false",
+                "output": "text",
+                "data-options": ""
+            },
+            "elements":{
+                "name": "Элементы", 
+                "options": "width1:300",
+                "input": "textarea",
+                "output": "text",
+                "required": "false",
+                "data-options": ""
+            },
+            "output": {
+                "name": "Тип вывода",
+                "options": "width1:60,align:'center'",
+                "input": "select",
+                "output": "text",
+                "required": "false",
+                "list": "Text|Formatter",
+                "data-options": ""
+            }
+        }
+    ]
+}

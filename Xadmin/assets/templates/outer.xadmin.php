@@ -108,18 +108,22 @@
     function editRow(){
         var row = $('#dg').datagrid('getSelected');
         if (row){
-            alert(row.id);
-            alert(row.menuindex);
-            $('#dlg').dialog('open').dialog('setTitle','Редактировать').dialog('refresh','[+url+]?action=form&id='+row.id);
-                // .dialog('refresh','[+url+]?action=form&id='+row.id)                
-                // .dialog('setTitle','Редактировать');
-
-            $('body #fm').form('load',row);
-            // alert(row.id);
+            rowData = row;
+            $('#dlg').dialog('open')
+                .dialog('refresh','[+url+]?action=form&id='+row.id)
+                .dialog('setTitle','Редактирование');
+            url = '[+url+]?action=update&id='+row.id;// alert(row.id);
             // alert(row.menuindex);
-            // $('#fm').form('reset');
-            // $('#fm').form('load',row);
-            url = '[+url+]?action=update&id='+row.id;
+            // $('#dlg').dialog('open').dialog('setTitle','Редактировать').dialog('refresh','[+url+]?action=form&id='+row.id);
+            //     // .dialog('refresh','[+url+]?action=form&id='+row.id)                
+            //     // .dialog('setTitle','Редактировать');
+
+            // $('body #fm').form('load',row);
+            // // alert(row.id);
+            // // alert(row.menuindex);
+            // // $('#fm').form('reset');
+            // // $('#fm').form('load',row);
+            // url = '[+url+]?action=update&id='+row.id;
         }
     }
     function saveRow(){
